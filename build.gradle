@@ -1,0 +1,13 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+repositories {
+    maven {
+        url { "http://artifactory.cern.ch" }
+    }
+    mavenCentral()
+}
+
+dependencies {
+    
+}
