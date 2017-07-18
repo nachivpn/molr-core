@@ -4,8 +4,6 @@
 
 package cern.molr.server.request;
 
-public interface MissionCommandRequest {
+public interface MissionStepRequest {
 
-    
-    
 }

@@ -2,12 +2,12 @@
  * Copyright (c) 2017 European Organisation for Nuclear Research (CERN), All Rights Reserved.
  */
 
-package cern.molr.commons.mole;
+package cern.molr.site;
 
 import cern.molr.commons.mission.Mission;
 
-public interface Mole {
+public interface MoleSpawner<T> {
 
-    <I, O> O run(Mission<I, O> mission, I args);
-    
+    <I,O> T spawnMoleRunner(Mission<I, O> arg0, I args) throws Exception;
+
 }

@@ -8,6 +8,8 @@ public interface MissionExecution {
 
     String getId();
     
-    Mission getMission();
+    Mission<?, ?> getMission();
+    
+    MissionStatus getMissionState();
     
 }
