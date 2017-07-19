@@ -6,6 +6,6 @@ package cern.molr.commons.mission;
 
 public interface MissionMaterializer {
 
-    Mission<?, ?> materialize(Class<?> classType);
+    Mission materialize(Class<?> classType);
     
 }

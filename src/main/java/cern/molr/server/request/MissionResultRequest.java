@@ -4,12 +4,8 @@
 
 package cern.molr.server.request;
 
-import cern.molr.commons.mission.Mission;
+public interface MissionResultRequest {
 
-public interface MissionRunRequest<T> {
-
-    Mission getMission();
-    
-    T getArgs();
+    public String getMissionId();
     
 }

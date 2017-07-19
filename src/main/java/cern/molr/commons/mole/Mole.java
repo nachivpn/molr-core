@@ -4,10 +4,17 @@
 
 package cern.molr.commons.mole;
 
+import java.lang.reflect.Method;
+import java.util.List;
+
 import cern.molr.commons.mission.Mission;
+import cern.molr.exception.IncompatibleMissionException;
+import cern.molr.exception.MissionExecutionException;
 
-public interface Mole {
+public interface Mole<I, O> {
 
-    <I, O> O run(Mission<I, O> mission, I args);
+    List<Method> discover(Class<?> classType) throws IncompatibleMissionException;
+    
+    O run(Mission mission, I args) throws MissionExecutionException;
     
 }

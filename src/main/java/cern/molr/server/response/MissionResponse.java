@@ -4,8 +4,10 @@
 
 package cern.molr.server.response;
 
-public interface MissionRunResponse extends MissionResponse{
+public interface MissionResponse {
 
-    String getMissionExecutionId();
+    public boolean isSuccesful();
+    
+    public String getError();
     
 }

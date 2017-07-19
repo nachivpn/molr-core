@@ -3,10 +3,14 @@
  */
 
 package cern.molr.server;
-
+/**
+ * {@link MissionExecutionService} is the mission host - server interface
+ * 
+ * @author nachivpn
+ */
 public interface MissionReportService {
 
-    void reportCompletion(String missionId);
+    <O> void reportCompletion(String missionId, O result);
     
     void reportException(String missionId, Exception e);
 

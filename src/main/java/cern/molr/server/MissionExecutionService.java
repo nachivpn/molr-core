@@ -6,10 +6,12 @@ package cern.molr.server;
 
 import cern.molr.server.request.MissionAbortRequest;
 import cern.molr.server.request.MissionContinueRequest;
+import cern.molr.server.request.MissionResultRequest;
 import cern.molr.server.request.MissionRunRequest;
 import cern.molr.server.request.MissionStepRequest;
 import cern.molr.server.response.MissionAbortResponse;
 import cern.molr.server.response.MissionContinueResponse;
+import cern.molr.server.response.MissionResultResponse;
 import cern.molr.server.response.MissionRunResponse;
 import cern.molr.server.response.MissionStepResponse;
 
@@ -20,12 +22,14 @@ import cern.molr.server.response.MissionStepResponse;
  */
 public interface MissionExecutionService {
 
-    MissionRunResponse run(MissionRunRequest request);
+    <I> MissionRunResponse run(MissionRunRequest<I> request);
     
     MissionAbortResponse abort(MissionAbortRequest request);
 
     MissionContinueResponse continue_(MissionContinueRequest request);
     
     MissionStepResponse step(MissionStepRequest request);
+    
+    <O> MissionResultResponse<O> getResult(MissionResultRequest request);
     
 }

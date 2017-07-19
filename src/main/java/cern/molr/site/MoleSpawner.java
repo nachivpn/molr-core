@@ -8,6 +8,6 @@ import cern.molr.commons.mission.Mission;
 
 public interface MoleSpawner<T> {
 
-    <I,O> T spawnMoleRunner(Mission<I, O> arg0, I args) throws Exception;
+    <I> T spawnMoleRunner(Mission m, I args) throws Exception;
 
 }
