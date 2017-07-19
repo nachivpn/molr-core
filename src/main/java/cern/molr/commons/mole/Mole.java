@@ -11,6 +11,13 @@ import cern.molr.commons.mission.Mission;
 import cern.molr.exception.IncompatibleMissionException;
 import cern.molr.exception.MissionExecutionException;
 
+/**
+ * A {@link Mole} executes a given mission. Only a {@link Mole} knows how to run a mission.
+ * 
+ * @author nachivpn 
+ * @param <I>
+ * @param <O>
+ */
 public interface Mole<I, O> {
 
     List<Method> discover(Class<?> classType) throws IncompatibleMissionException;

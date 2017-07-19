@@ -4,7 +4,8 @@
 
 package cern.molr.server;
 /**
- * {@link MissionExecutionService} is the mission host - server interface
+ * {@link MissionExecutionService} is the mole supervisor - server interface
+ * Used to report when a mission completes, fails etc.
  * 
  * @author nachivpn
  */

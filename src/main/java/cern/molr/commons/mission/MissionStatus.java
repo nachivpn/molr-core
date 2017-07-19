@@ -4,6 +4,11 @@
 
 package cern.molr.commons.mission;
 
+/**
+ * Status of a mission
+ * 
+ * @author nachivpn
+ */
 public enum MissionStatus {
 
     ACTIVE,

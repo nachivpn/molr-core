@@ -4,6 +4,11 @@
 
 package cern.molr.commons.mission;
 
+/**
+ * Used to converts a given mission definition class file into a mission object
+ * 
+ * @author nachivpn
+ */
 public interface MissionMaterializer {
 
     Mission materialize(Class<?> classType);

@@ -21,7 +21,11 @@ import cern.molr.site.MoleSupervisor;
 import cern.molr.type.ACK;
 import cern.molr.type.Either;
 import cern.molr.type.Null;
-
+/**
+ * Sample implementation and usage of the interfaces to demonstrate communication
+ * 
+ * @author nachivpn
+ */
 public class SampleImpl {
 
 
