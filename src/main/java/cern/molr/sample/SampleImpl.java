@@ -28,44 +28,27 @@ import cern.molr.type.Null;
  */
 public class SampleImpl {
 
-
     MissionExecutionService mExecService = new MissionExecutionService() {
-        
+
         MoleSupervisor moleSupervisor = null;
+        MissionMaterializer materializer = null;
 
         @Override
         public <I> MissionRunResponse run(MissionRunRequest<I> request) {
             String missionEId = makeMissionEId();
-            Either<Exception,ACK> missionStartResp = moleSupervisor.<I>startMission(request.getMission(), request.getArgs());
-            return missionStartResp.<MissionRunResponse>match(
-                    (Exception e) -> new MissionRunResponse() {
-                        @Override
-                        public String getMissionExecutionId() {
-                            return null;
-                        }
-                        @Override
-                        public boolean isSuccesful() {
-                            return false;
-                        }
-                        @Override
-                        public String getError() {
-                            return "Mission start failed";
-                        }
-                    },
-                    (ACK ack) -> new MissionRunResponse() {
-                        @Override
-                        public String getMissionExecutionId() {
-                            return missionEId;
-                        }
-                        @Override
-                        public boolean isSuccesful() {
-                            return true;
-                        }
-                        @Override
-                        public String getError() {
-                            return null;
-                        }
-                    });
+
+            /*materialize a mission from mission defn class*/
+            try {
+                Mission mission = materializer.materialize(Class.forName(request.getMissionDefnClassName()));
+                Either<Exception,ACK> missionStartResp = moleSupervisor.<I>startMission(mission, request.getArgs());
+                return missionStartResp.<MissionRunResponse>match(
+                        (Exception e) -> new ErrMissionRunResponse("Mission start failed"),
+                        (ACK ack) -> new SuccMissionRunResponseImpl(missionEId)
+                        );
+            } catch (ClassNotFoundException e1) {
+                return new ErrMissionRunResponse(e1.getMessage());
+            }
+
         }
 
         @Override
@@ -99,22 +82,9 @@ public class SampleImpl {
      * Usage of MolR by the operator client (the request-response will be done under the hood later)
      */
     public void operatorRun() {
-        /*materialize a mission from mission defn class*/
-        MissionMaterializer materializer = null;
-        Mission mission = materializer.materialize(RunnableHelloWriter.class);
-        
         /*request execution of the mission*/
-        MissionRunResponse runResp = mExecService.run(new MissionRunRequest<Null>() {
-            @Override
-            public Mission getMission() {
-                return mission;
-            }
-            @Override
-            public Null getArgs() {
-                return null;
-            }
-        });
-        
+        MissionRunResponse runResp = mExecService.run(
+                new SampleMissionRunRequestImpl<Null>(RunnableHelloWriter.class.getName(), null));
         /*request the result of the mission*/
         String missionExecId = runResp.getMissionExecutionId();
         MissionResultResponse<Null> resResp = mExecService.getResult(() -> missionExecId);  //What if result is not ready?

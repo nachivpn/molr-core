@@ -8,21 +8,21 @@ package cern.molr.exception;
 
 /**
  * Exception to be used whenever its not possible to
- * {@link cern.molr.commons.mole.Mole#run(String, Object...)} a {@link cern.molr.commons.domain.Mission}
+ * {@link cern.molr.commons.mission.MissionMaterializer#materialize(Class)} a {@link cern.molr.commons.domain.Mission}
  *
  * @author timartin
  */
-public class MissionExecutionException extends Exception {
+public class MissionMaterializationException extends Exception {
 
-    public MissionExecutionException(String message) {
+    public MissionMaterializationException(String message) {
         super(message);
     }
 
-    public MissionExecutionException(Throwable cause) {
+    public MissionMaterializationException(Throwable cause) {
         super(cause);
     }
 
-    public MissionExecutionException(String message, Throwable cause) {
+    public MissionMaterializationException(String message, Throwable cause) {
         super(message, cause);
     }
 }

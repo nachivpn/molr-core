@@ -30,7 +30,7 @@ import cern.molr.type.Null;
 public class RunnableMole implements Mole<Null,Null> {
 
     @Override
-    public List<Method> discover(Class<?> classType) {
+    public List<Method> discover(Class<?> classType) throws IncompatibleMissionException {
         if (null == classType) {
             throw new IllegalArgumentException("Class type cannot be null");
         }
@@ -45,7 +45,7 @@ public class RunnableMole implements Mole<Null,Null> {
     }
 
     @Override
-    public Null run(Mission mission, Null args) {
+    public Null run(Mission mission, Null args) throws MissionExecutionException {
         try {
             Class<?> missionContentClass = Class.forName(mission.getMissionDefnClassName());
             Object missionContentInstance = missionContentClass.getConstructor().newInstance();

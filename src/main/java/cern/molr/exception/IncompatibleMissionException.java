@@ -12,7 +12,7 @@ package cern.molr.exception;
  *
  * @author nachivpn
  */
-public class IncompatibleMissionException extends RuntimeException {
+public class IncompatibleMissionException extends Exception {
 
     public IncompatibleMissionException(String message) {
         super(message);
