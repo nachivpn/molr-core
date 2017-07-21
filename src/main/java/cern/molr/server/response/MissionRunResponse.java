@@ -4,8 +4,12 @@
 
 package cern.molr.server.response;
 
-public interface MissionRunResponse extends MissionResponse{
+import java.util.concurrent.Future;
+
+public interface MissionRunResponse<T> extends MissionResponse{
 
     String getMissionExecutionId();
+    
+    Future<T> getMissionResult();
     
 }

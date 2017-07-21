@@ -4,14 +4,18 @@
 
 package cern.molr.sample;
 
+import java.util.concurrent.Future;
+
 import cern.molr.server.response.MissionRunResponse;
 
-public class SuccMissionRunResponseImpl implements MissionRunResponse {
+public class SuccMissionRunResponseImpl<T> implements MissionRunResponse<T> {
 
     String missionExecId;
+    Future<T> result;
     
-    public SuccMissionRunResponseImpl(String executionId) {
+    public SuccMissionRunResponseImpl(String executionId, Future<T> result) {
         this.missionExecId = executionId;
+        this.result = result;
     }
     
     @Override
@@ -27,6 +31,11 @@ public class SuccMissionRunResponseImpl implements MissionRunResponse {
     @Override
     public String getMissionExecutionId() {
         return missionExecId;
+    }
+
+    @Override
+    public Future<T> getMissionResult() {
+        return result;
     }
 
 }

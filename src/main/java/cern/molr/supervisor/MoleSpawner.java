@@ -2,7 +2,7 @@
  * Copyright (c) 2017 European Organisation for Nuclear Research (CERN), All Rights Reserved.
  */
 
-package cern.molr.site;
+package cern.molr.supervisor;
 
 import cern.molr.commons.mission.Mission;
 /**

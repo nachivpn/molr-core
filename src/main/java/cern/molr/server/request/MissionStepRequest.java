@@ -6,4 +6,5 @@ package cern.molr.server.request;
 
 public interface MissionStepRequest {
 
+    public String getMissionId();
 }
