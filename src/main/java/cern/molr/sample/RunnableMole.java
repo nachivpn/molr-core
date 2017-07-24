@@ -15,7 +15,6 @@ import cern.molr.commons.mission.Mission;
 import cern.molr.commons.mole.Mole;
 import cern.molr.exception.IncompatibleMissionException;
 import cern.molr.exception.MissionExecutionException;
-import cern.molr.type.Null;
 
 /**
  * Implementation of {@link Mole} which allows for the discovery and execution of classes implementing the
@@ -27,7 +26,7 @@ import cern.molr.type.Null;
  * @author nachivpn
  * @see Mole
  */
-public class RunnableMole implements Mole<Null,Null> {
+public class RunnableMole implements Mole<Void,Void> {
 
     @Override
     public List<Method> discover(Class<?> classType) throws IncompatibleMissionException {
@@ -45,7 +44,7 @@ public class RunnableMole implements Mole<Null,Null> {
     }
 
     @Override
-    public Null run(Mission mission, Null args) throws MissionExecutionException {
+    public Void run(Mission mission, Void args) throws MissionExecutionException {
         try {
             Class<?> missionContentClass = Class.forName(mission.getMissionDefnClassName());
             Object missionContentInstance = missionContentClass.getConstructor().newInstance();

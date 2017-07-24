@@ -6,7 +6,6 @@ package cern.molr.sample;
 
 import cern.molr.server.MissionExecutionService;
 import cern.molr.server.response.MissionRunResponse;
-import cern.molr.type.Null;
 /**
  * Sample implementation and usage of the operator's interfaces to demonstrate communication
  * 
@@ -22,9 +21,9 @@ public class SampleOperator {
     
     public void operatorRun() {
         /*request execution of the mission*/
-        MissionRunResponse<Null> runResp = mExecService.run(
-                new SampleMissionRunRequestImpl<Null>(RunnableHelloWriter.class.getName(), null));
-        /*request the result of the mission*/
+        MissionRunResponse<Void> runResp = mExecService.run(
+                new SampleMissionRunRequestImpl<Void>(RunnableHelloWriter.class.getName(), null));
+        /*request the result of the mission - not quite applicable here*/
         runResp.getMissionResult();
     }
 
