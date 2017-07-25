@@ -8,16 +8,16 @@ import java.util.concurrent.Future;
 
 import cern.molr.server.response.MissionRunResponse;
 
-public class ErrMissionRunResponse<T> implements MissionRunResponse<T> {
+public class ErrorMissionRunResponse<T> implements MissionRunResponse<T> {
 
     String erroMessage;
     
-    public ErrMissionRunResponse(String error) {
+    public ErrorMissionRunResponse(String error) {
         this.erroMessage = error;
     }
     
     @Override
-    public boolean isSuccesful() {
+    public boolean isSuccessful() {
         return false;
     }
 

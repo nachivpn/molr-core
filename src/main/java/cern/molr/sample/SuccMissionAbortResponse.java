@@ -9,7 +9,7 @@ import cern.molr.server.response.MissionAbortResponse;
 public class SuccMissionAbortResponse implements MissionAbortResponse {
 
     @Override
-    public boolean isSuccesful() {
+    public boolean isSuccessful() {
         return true;
     }
 

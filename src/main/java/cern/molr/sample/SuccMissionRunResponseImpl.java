@@ -19,7 +19,7 @@ public class SuccMissionRunResponseImpl<T> implements MissionRunResponse<T> {
     }
     
     @Override
-    public boolean isSuccesful() {
+    public boolean isSuccessful() {
         return true;
     }
 

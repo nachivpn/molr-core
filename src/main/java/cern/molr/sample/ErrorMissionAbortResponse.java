@@ -6,16 +6,16 @@ package cern.molr.sample;
 
 import cern.molr.server.response.MissionAbortResponse;
 
-public class ErrMissionAbortResponse implements MissionAbortResponse {
+public class ErrorMissionAbortResponse implements MissionAbortResponse {
 
     String erroMessage;
     
-    public ErrMissionAbortResponse(String error) {
+    public ErrorMissionAbortResponse(String error) {
         this.erroMessage = error;
     }
     
     @Override
-    public boolean isSuccesful() {
+    public boolean isSuccessful() {
         return false;
     }
 

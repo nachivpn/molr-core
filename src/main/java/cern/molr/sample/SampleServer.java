@@ -54,10 +54,10 @@ public class SampleServer {
             return optionalMission.map(mission -> {
                 Either<Exception,ACK> missionStartResp = moleSupervisor.<I,O>startMission(mission, request.getArgs(),request.getMissionMode(), missionEId);
                 return missionStartResp.<MissionRunResponse<O>>match(
-                        (Exception e) -> new ErrMissionRunResponse<O>("Mission start failed"),
+                        (Exception e) -> new ErrorMissionRunResponse<O>("Mission start failed"),
                         (ACK ack) -> new SuccMissionRunResponseImpl<O>(missionEId,makeMagicalFuture(missionEId))
                         );}
-                    ).orElse(new ErrMissionRunResponse<O>("Mission not registered"));
+                    ).orElse(new ErrorMissionRunResponse<O>("Mission not registered"));
         }
 
         @Override
@@ -79,10 +79,10 @@ public class SampleServer {
             return optionalMoleSupervisor.map(moleSupervisor -> {
                 Either<Exception,ACK> missionStartResp = moleSupervisor.abortCurrentMission();
                 return missionStartResp.<MissionAbortResponse>match(
-                        (Exception e) -> new ErrMissionAbortResponse("Mission abort failed"),
+                        (Exception e) -> new ErrorMissionAbortResponse("Mission abort failed"),
                         (ACK ack) -> new SuccMissionAbortResponse()
                         );}
-                    ).orElse(new ErrMissionAbortResponse("No such Mission is running"));
+                    ).orElse(new ErrorMissionAbortResponse("No such Mission is running"));
         }
 
         private String makeMissionEId() {
