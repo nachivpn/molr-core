@@ -52,7 +52,7 @@ public class SampleServer {
 
             /*return response with a future<result>*/
             return optionalMission.map(mission -> {
-                Either<Exception,ACK> missionStartResp = moleSupervisor.<I>startMission(mission, request.getArgs(),missionEId);
+                Either<Exception,ACK> missionStartResp = moleSupervisor.<I,O>startMission(mission, request.getArgs(),request.getMissionMode(), missionEId);
                 return missionStartResp.<MissionRunResponse<O>>match(
                         (Exception e) -> new ErrMissionRunResponse<O>("Mission start failed"),
                         (ACK ack) -> new SuccMissionRunResponseImpl<O>(missionEId,makeMagicalFuture(missionEId))
