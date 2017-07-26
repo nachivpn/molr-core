@@ -9,5 +9,7 @@ repositories {
 }
 
 dependencies {
-    
+    compile files("${System.properties['java.home']}/../lib/tools.jar")
+    compile(group: 'cern.molr', name: 'jdiscript', version: '0.1')
+    compile(group: 'cern.molr', name: 'molr-inspector', version: '0.1')
 }

@@ -2,17 +2,17 @@
  * Copyright (c) 2017 European Organisation for Nuclear Research (CERN), All Rights Reserved.
  */
 
-package cern.molr.site;
+package cern.molr.supervisor;
 
 import cern.molr.commons.mission.Mission;
 /**
  * The {@link MoleSpawner} runs a given mission by instantiating (or spawning) a mole and asking it to run the mission
  * 
  * @author nachivpn 
- * @param <T> - return type of the span action (In step through mode, it could be session)
+ * @param <T> - return type of the spawn action (it could be a session)
  */
 public interface MoleSpawner<T> {
 
-    <I> T spawnMoleRunner(Mission m, I args) throws Exception;
+    <I,O> T spawnMoleRunner(Mission m, I args) throws Exception;
 
 }

@@ -4,6 +4,6 @@
 
 package cern.molr.server.response;
 
-public interface MissionAbortResponse {
+public interface MissionAbortResponse extends MissionResponse{
 
 }

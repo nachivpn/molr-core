@@ -2,10 +2,11 @@
  * Copyright (c) 2017 European Organisation for Nuclear Research (CERN), All Rights Reserved.
  */
 
-package cern.molr.server.request;
+package cern.molr.commons.mission;
 
-public interface MissionResultRequest {
+public enum MissionMode {
 
-    public String getMissionId();
+    RUN,
+    STEP;
     
 }

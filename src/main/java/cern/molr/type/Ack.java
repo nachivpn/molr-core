@@ -4,11 +4,6 @@
 
 package cern.molr.type;
 
-public class Null {
+public class Ack {
 
-    @Override
-    public boolean equals(Object o) {
-        return null == o || o instanceof Null;
-    }
-    
 }

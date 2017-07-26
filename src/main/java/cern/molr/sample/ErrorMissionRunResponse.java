@@ -4,18 +4,20 @@
 
 package cern.molr.sample;
 
+import java.util.concurrent.Future;
+
 import cern.molr.server.response.MissionRunResponse;
 
-public class ErrMissionRunResponse implements MissionRunResponse {
+public class ErrorMissionRunResponse<T> implements MissionRunResponse<T> {
 
     String erroMessage;
     
-    public ErrMissionRunResponse(String error) {
+    public ErrorMissionRunResponse(String error) {
         this.erroMessage = error;
     }
     
     @Override
-    public boolean isSuccesful() {
+    public boolean isSuccessful() {
         return false;
     }
 
@@ -26,6 +28,11 @@ public class ErrMissionRunResponse implements MissionRunResponse {
 
     @Override
     public String getMissionExecutionId() {
+        return null;
+    }
+
+    @Override
+    public Future<T> getMissionResult() {
         return null;
     }
 

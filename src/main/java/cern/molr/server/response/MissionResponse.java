@@ -6,7 +6,7 @@ package cern.molr.server.response;
 
 public interface MissionResponse {
 
-    public boolean isSuccesful();
+    public boolean isSuccessful();
     
     public String getError();
     
