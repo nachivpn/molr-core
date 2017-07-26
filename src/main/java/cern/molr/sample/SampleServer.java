@@ -21,7 +21,7 @@ import cern.molr.server.response.MissionContinueResponse;
 import cern.molr.server.response.MissionRunResponse;
 import cern.molr.server.response.MissionStepResponse;
 import cern.molr.supervisor.MoleSupervisor;
-import cern.molr.type.ACK;
+import cern.molr.type.Ack;
 import cern.molr.type.Either;
 
 /**
@@ -52,10 +52,10 @@ public class SampleServer {
 
             /*return response with a future<result>*/
             return optionalMission.map(mission -> {
-                Either<Exception,ACK> missionStartResp = moleSupervisor.<I,O>startMission(mission, request.getArgs(),request.getMissionMode(), missionEId);
+                Either<Exception,Ack> missionStartResp = moleSupervisor.<I,O>startMission(mission, request.getArgs(),request.getMissionMode(), missionEId);
                 return missionStartResp.<MissionRunResponse<O>>match(
                         (Exception e) -> new ErrorMissionRunResponse<O>("Mission start failed"),
-                        (ACK ack) -> new SuccMissionRunResponseImpl<O>(missionEId,makeMagicalFuture(missionEId))
+                        (Ack ack) -> new SuccMissionRunResponseImpl<O>(missionEId,makeMagicalFuture(missionEId))
                         );}
                     ).orElse(new ErrorMissionRunResponse<O>("Mission not registered"));
         }
@@ -77,10 +77,10 @@ public class SampleServer {
             Optional<MoleSupervisor> optionalMoleSupervisor = Optional.of(missionExecutionRegistry.get(missionEId));
             
             return optionalMoleSupervisor.map(moleSupervisor -> {
-                Either<Exception,ACK> missionStartResp = moleSupervisor.abortCurrentMission();
+                Either<Exception,Ack> missionStartResp = moleSupervisor.abortCurrentMission();
                 return missionStartResp.<MissionAbortResponse>match(
                         (Exception e) -> new ErrorMissionAbortResponse("Mission abort failed"),
-                        (ACK ack) -> new SuccMissionAbortResponse()
+                        (Ack ack) -> new SuccMissionAbortResponse()
                         );}
                     ).orElse(new ErrorMissionAbortResponse("No such Mission is running"));
         }

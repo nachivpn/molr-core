@@ -6,8 +6,7 @@ package cern.molr.supervisor;
 
 import cern.molr.commons.mission.Mission;
 import cern.molr.commons.mission.MissionMode;
-import cern.molr.commons.mission.MissionStatus;
-import cern.molr.type.ACK;
+import cern.molr.type.Ack;
 import cern.molr.type.Either;
 /**
  * The {@link MoleSupervisor} allows interaction with the mole executing a specific mission.
@@ -25,14 +24,12 @@ public interface MoleSupervisor {
      * @param missionExecutionId
      * @return
      */
-    <I,O> Either<Exception, ACK> startMission(Mission m, I args, MissionMode mode, String missionExecutionId);
+    <I,O> Either<Exception, Ack> startMission(Mission m, I args, MissionMode mode, String missionExecutionId);
 
-    Either<Exception, ACK> continueCurrentMission();
+    Either<Exception, Ack> continueCurrentMission();
     
-    Either<Exception, ACK> abortCurrentMission();
+    Either<Exception, Ack> abortCurrentMission();
     
-    Either<Exception, ACK> stepCurrentMission();
-    
-    MissionStatus getCurrentMissionStatus();
+    Either<Exception, Ack> stepCurrentMission();
     
 }

@@ -4,6 +4,6 @@
 
 package cern.molr.type;
 
-public class ACK {
+public class Ack {
 
 }
