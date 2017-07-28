@@ -19,7 +19,7 @@ public class SampleOperator {
      * Usage of MolR by the operator client (the request-response will be done under the hood later)
      */
 
-    MissionExecutionService mExecService = null;
+    MissionExecutionService mExecService = new SampleMissionExecutionService();
 
     public void operatorRun() throws Exception{
         CompletableFuture<RunMissionController<Void>> futureController = mExecService.<Void, Void>runToCompletion("cern.molr.sample.RunnableHelloWriter", null);
