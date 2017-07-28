@@ -13,5 +13,5 @@ public interface RunMissionController<T> {
      CompletableFuture<T> getResult();
     
      //return type Ack may change later
-     CompletableFuture<Ack> abort();
+     CompletableFuture<Ack> cancel();
 }

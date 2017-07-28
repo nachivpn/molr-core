@@ -11,7 +11,7 @@ import cern.molr.type.Either;
 
 public interface StepMissionController<T> {
     
-    CompletableFuture<Ack> abort();
+    CompletableFuture<Ack> cancel();
 
     CompletableFuture<T> runToCompletion();
 

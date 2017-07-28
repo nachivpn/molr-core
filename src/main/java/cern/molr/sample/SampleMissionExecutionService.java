@@ -41,8 +41,8 @@ public class SampleMissionExecutionService implements MissionExecutionService {
                         return moleSupervisor.run(mission, args, missionEId);
                     }
                     @Override
-                    public CompletableFuture<Ack> abort() {
-                        return moleSupervisor.abort();
+                    public CompletableFuture<Ack> cancel() {
+                        return moleSupervisor.cancel();
                     }
                 }).orElseThrow(() -> new UnknownMissionException("No such mission registered"));
             } catch (Exception e) {
@@ -65,8 +65,8 @@ public class SampleMissionExecutionService implements MissionExecutionService {
                 return optionalMission.<StepMissionController<O>> map(mission ->
                 new StepMissionController<O>() {
                     @Override
-                    public CompletableFuture<Ack> abort() {
-                        return moleSupervisor.abort();
+                    public CompletableFuture<Ack> cancel() {
+                        return moleSupervisor.cancel();
                     }
 
                     @Override

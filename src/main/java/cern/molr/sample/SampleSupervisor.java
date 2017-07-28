@@ -77,7 +77,7 @@ public class SampleSupervisor {
         }
 
         @Override
-        public CompletableFuture<Ack> abort() {
+        public CompletableFuture<Ack> cancel() {
             return CompletableFuture.supplyAsync(
                     () -> {
                         try {
