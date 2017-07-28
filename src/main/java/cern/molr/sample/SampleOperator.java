@@ -4,9 +4,10 @@
 
 package cern.molr.sample;
 
-import cern.molr.commons.mission.MissionMode;
-import cern.molr.server.MissionExecutionService;
-import cern.molr.server.response.MissionRunResponse;
+import java.util.concurrent.CompletableFuture;
+
+import cern.molr.client.MissionExecutionService;
+import cern.molr.client.RunMissionController;
 /**
  * Sample implementation and usage of the operator's interfaces to demonstrate communication
  * 
@@ -17,15 +18,20 @@ public class SampleOperator {
     /**
      * Usage of MolR by the operator client (the request-response will be done under the hood later)
      */
-    
-    MissionExecutionService mExecService = new SampleServer().getMissionExecutionService();
-    
-    public void operatorRun() {
-        /*request execution of the mission*/
-        MissionRunResponse<Void> runResp = mExecService.run(
-                new SampleMissionRunRequestImpl<Void>(RunnableHelloWriter.class.getName(), null, MissionMode.RUN));
-        /*request the result of the mission - not quite applicable here*/
-        runResp.getMissionResult();
+
+    MissionExecutionService mExecService = null;
+
+    public void operatorRun() throws Exception{
+        CompletableFuture<RunMissionController<Void>> futureController = mExecService.<Void, Void>runToCompletion("cern.molr.sample.RunnableHelloWriter", null);
+        try {
+            RunMissionController<Void> controller = futureController.get();
+            CompletableFuture<Void> futureResult = controller.getResult();
+            futureResult.get();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+
     }
 
 

@@ -5,6 +5,7 @@
 package cern.molr.supervisor;
 
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 import cern.molr.commons.mission.Mission;
 import cern.molr.commons.mission.MissionStatus;
@@ -14,7 +15,7 @@ import cern.molr.commons.mission.MissionStatus;
  *
  * @author nachivpn
  */
-public interface RunSession extends Session{
+public interface RunSession<O> extends Session{
 
     /**
      * Get the link to thread running the mission
@@ -29,9 +30,12 @@ public interface RunSession extends Session{
     Optional<Exception> getException();
     
     /**
-     * get status ofrunning mission
+     * get status of a running mission
      * @return
      */
     MissionStatus getMissionStatus();
+
+    
+    CompletableFuture<O> getResult();
     
 }
