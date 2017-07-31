@@ -113,6 +113,8 @@ public class SampleSupervisor {
                 Class<Mole<I, O>> moleClass = (Class<Mole<I, O>>) Class.forName(moleClassName);
                 Mole<I,O> mole = moleClass.getConstructor().newInstance();
                 return mole.run(m, args);
+            } catch (ClassCastException e) {
+                throw new CompletionException("BAD argument! Wrong type?",e);
             } catch (Exception e) {
                 throw new CompletionException(e);
             }

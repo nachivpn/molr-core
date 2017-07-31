@@ -19,20 +19,39 @@ public class SampleOperator {
      * Usage of MolR by the operator client (the request-response will be done under the hood later)
      */
 
-    MissionExecutionService mExecService = new SampleMissionExecutionService();
+    MissionExecutionService mExecService;
 
-    public void operatorRun() throws Exception{
+    public SampleOperator( MissionExecutionService mExecService) {
+        this.mExecService = mExecService;
+    }
+    
+    public void operatorRun1() throws Exception{
         CompletableFuture<RunMissionController<Void>> futureController = mExecService.<Void, Void>runToCompletion("cern.molr.sample.RunnableHelloWriter", null);
         try {
             RunMissionController<Void> controller = futureController.get();
             CompletableFuture<Void> futureResult = controller.getResult();
             futureResult.get();
         } catch (Exception e) {
+            //handle
+            System.err.println("Operator received an error:");
             e.printStackTrace();
             throw e;
         }
-
     }
-
-
+    
+    public int operatorRun2() throws Exception{
+        CompletableFuture<RunMissionController<Integer>> futureController = mExecService.<Integer, Integer>runToCompletion("cern.molr.sample.IntDoubler", 21);
+        try {
+            RunMissionController<Integer> controller = futureController.get();
+            CompletableFuture<Integer> futureResult = controller.getResult();
+            return futureResult.get();
+        } catch (Exception e) {
+            //handle
+            System.err.println("Operator received an error:");
+            e.printStackTrace();
+            throw e;
+        }
+        
+    }
+    
 }
