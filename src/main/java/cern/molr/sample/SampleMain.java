@@ -8,7 +8,7 @@ public class SampleMain {
 
     public static void main(String args[]) throws Exception {
         
-        SampleServer server = new SampleServer();
+        LocalServer server = new LocalServer();
         
         SampleDeveloper dev = new SampleDeveloper(new AnnotatedMissionMaterializer(), server.getMissionDeploymentService());
         dev.developerDeploy();
