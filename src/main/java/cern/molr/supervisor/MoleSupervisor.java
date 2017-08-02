@@ -9,7 +9,7 @@ import java.util.concurrent.CompletableFuture;
 import cern.molr.client.StepResult;
 import cern.molr.commons.mission.Mission;
 import cern.molr.type.Ack;
-import cern.molr.type.Either;
+import cern.molr.type.either.Either;
 /**
  * The {@link MoleSupervisor} allows interaction with the mole executing a specific mission.
  * This is the entry point for the server to control a mission execution.

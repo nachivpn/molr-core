@@ -13,7 +13,7 @@ import java.util.concurrent.CompletableFuture;
  */
 public interface MissionExecutionService {
 
-    <I,O> CompletableFuture<RunMissionController<O>> runToCompletion(String missionDefnClassName, I args);
+    <I,O> CompletableFuture<RunMissionController<O>> runToCompletion(String missionDefnClassName, I args, Class<I> cI, Class<O> cO);
     
     <I,O> CompletableFuture<StepMissionController<O>> step(String missionDefnClassName, I args);
     

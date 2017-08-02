@@ -26,7 +26,7 @@ public class SampleOperator {
     }
     
     public void operatorRun1() throws Exception{
-        CompletableFuture<RunMissionController<Void>> futureController = mExecService.<Void, Void>runToCompletion("cern.molr.sample.RunnableHelloWriter", null);
+        CompletableFuture<RunMissionController<Void>> futureController = mExecService.<Void, Void>runToCompletion("cern.molr.sample.RunnableHelloWriter", null, Void.class, Void.class);
         try {
             RunMissionController<Void> controller = futureController.get();
             CompletableFuture<Void> futureResult = controller.getResult();
@@ -40,7 +40,7 @@ public class SampleOperator {
     }
     
     public int operatorRun2() throws Exception{
-        CompletableFuture<RunMissionController<Integer>> futureController = mExecService.<Integer, Integer>runToCompletion("cern.molr.sample.IntDoubler", 21);
+        CompletableFuture<RunMissionController<Integer>> futureController = mExecService.<Integer, Integer>runToCompletion("cern.molr.sample.IntDoubler", 21, Integer.class, Integer.class);
         try {
             RunMissionController<Integer> controller = futureController.get();
             CompletableFuture<Integer> futureResult = controller.getResult();

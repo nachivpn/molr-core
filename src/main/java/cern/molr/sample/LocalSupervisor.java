@@ -19,7 +19,7 @@ import cern.molr.supervisor.MoleSpawner;
 import cern.molr.supervisor.MoleSupervisor;
 import cern.molr.supervisor.StepSession;
 import cern.molr.type.Ack;
-import cern.molr.type.Either;
+import cern.molr.type.either.Either;
 
 /**
  * Sample implementation and usage of the supervisor's interfaces to demonstrate communication

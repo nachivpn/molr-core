@@ -8,7 +8,7 @@ import java.util.function.Function;
 
 public class Left<LL, LR> implements Either<LL, LR>{
 
-    LL l;
+    protected LL l;
     
     public Left(LL l) {
         this.l = l;

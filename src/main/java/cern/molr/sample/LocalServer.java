@@ -19,7 +19,7 @@ import cern.molr.commons.mission.Mission;
 import cern.molr.exception.UnknownMissionException;
 import cern.molr.supervisor.MoleSupervisor;
 import cern.molr.type.Ack;
-import cern.molr.type.Either;
+import cern.molr.type.either.Either;
 
 public class LocalServer{
     
@@ -36,7 +36,7 @@ public class LocalServer{
     public class LocalMissionExecutionService implements MissionExecutionService {
 
         @Override
-        public <I, O> CompletableFuture<RunMissionController<O>> runToCompletion(String missionDefnClassName, I args) {
+        public <I, O> CompletableFuture<RunMissionController<O>> runToCompletion(String missionDefnClassName, I args, Class<I> cI, Class<O> cO) {
             MoleSupervisor moleSupervisor = LocalSupervisor.getNewMoleSupervisor();
             String missionEId = makeMissionEId();
 

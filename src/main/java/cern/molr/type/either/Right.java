@@ -8,7 +8,7 @@ import java.util.function.Function;
 
 public class Right<RL,RR> implements Either<RL, RR>{
 
-    RR r;
+    protected RR r;
     
     public Right(RR r) {
         this.r = r;
