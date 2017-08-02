@@ -26,11 +26,11 @@ import cern.molr.type.Either;
  * 
  * @author nachivpn
  */
-public class SampleSupervisor {
+public class LocalSupervisor {
 
     private static final Ack ACK = new Ack();
 
-    public static class SampleMoleSupervisor implements MoleSupervisor{
+    public static class LocalSampleMoleSupervisor implements MoleSupervisor{
 
         private Optional<StepSession> optionalStepSession = Optional.empty();
 
@@ -151,7 +151,7 @@ public class SampleSupervisor {
     }
 
     public static MoleSupervisor getNewMoleSupervisor() {
-        return new SampleMoleSupervisor();
+        return new LocalSampleMoleSupervisor();
     }
 
 }
