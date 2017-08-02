@@ -10,7 +10,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import org.springframework.stereotype.Service;
 
-import cern.molr.client.RunMissionController;
 import cern.molr.commons.mission.Mission;
 import cern.molr.commons.mission.MissionMaterializer;
 import cern.molr.exception.MissionMaterializationException;
@@ -27,11 +26,11 @@ import cern.molr.supervisor.MoleSupervisor;
  * @author nachivpn
  */
 @Service
-public class MissionExecutionGatewayService {
+public class ServerRestExecutionService {
 
     ServerState registry = new ServerState();
 
-    public MissionExecutionGatewayService() {
+    public ServerRestExecutionService() {
         //TODO remove this init code
         MissionMaterializer m = new AnnotatedMissionMaterializer();
         try {

@@ -21,15 +21,15 @@ import cern.molr.remotesample.reqres.MissionResultRequest;
 import cern.molr.remotesample.reqres.MissionXResponse;
 import cern.molr.remotesample.reqres.MissionXResponseFailure;
 import cern.molr.remotesample.reqres.MissionXResponseSuccess;
-import cern.molr.remotesample.rservice.MissionExecutionGatewayService;
+import cern.molr.remotesample.rservice.ServerRestExecutionService;
 
 @RestController
 public class ServerRestController {
 
-    private final MissionExecutionGatewayService meGateway;
+    private final ServerRestExecutionService meGateway;
 
     @Autowired
-    public ServerRestController(MissionExecutionGatewayService meGateway) {
+    public ServerRestController(ServerRestExecutionService meGateway) {
         this.meGateway = meGateway;
     }
 
