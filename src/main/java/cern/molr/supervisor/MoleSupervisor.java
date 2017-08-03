@@ -4,8 +4,10 @@
 
 package cern.molr.supervisor;
 
+import java.util.concurrent.CompletableFuture;
+
+import cern.molr.client.StepResult;
 import cern.molr.commons.mission.Mission;
-import cern.molr.commons.mission.MissionMode;
 import cern.molr.type.Ack;
 import cern.molr.type.Either;
 /**
@@ -24,12 +26,12 @@ public interface MoleSupervisor {
      * @param missionExecutionId
      * @return
      */
-    <I,O> Either<Exception, Ack> startMission(Mission m, I args, MissionMode mode, String missionExecutionId);
+    <I,O> CompletableFuture<O> run(Mission m, I args, String missionExecutionId);
 
-    Either<Exception, Ack> continueCurrentMission();
+    <I,O> CompletableFuture<Either<StepResult, O>> step(Mission m, I args, String missionExecutionId);
+
+    <I,O> CompletableFuture<O> resume(Mission m, I args, String missionExecutionId);
     
-    Either<Exception, Ack> abortCurrentMission();
-    
-    Either<Exception, Ack> stepCurrentMission();
+    CompletableFuture<Ack> cancel();
     
 }

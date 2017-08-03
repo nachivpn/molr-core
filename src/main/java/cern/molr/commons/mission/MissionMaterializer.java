@@ -4,6 +4,8 @@
 
 package cern.molr.commons.mission;
 
+import cern.molr.exception.MissionMaterializationException;
+
 /**
  * Used to converts a given mission definition class file into a mission object
  * 
@@ -11,6 +13,6 @@ package cern.molr.commons.mission;
  */
 public interface MissionMaterializer {
 
-    Mission materialize(Class<?> classType);
+    Mission materialize(Class<?> classType) throws MissionMaterializationException;
     
 }

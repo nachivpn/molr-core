@@ -11,8 +11,8 @@ import cern.molr.commons.mission.Mission;
  * @author nachivpn 
  * @param <T> - return type of the spawn action (it could be a session)
  */
-public interface MoleSpawner<T> {
+public interface MoleSpawner<I,O,T> {
 
-    <I,O> T spawnMoleRunner(Mission m, I args) throws Exception;
+    T spawnMoleRunner(Mission m, I args) throws Exception;
 
 }

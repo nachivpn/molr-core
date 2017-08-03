@@ -23,5 +23,5 @@ public @interface RunWithMole {
     /**
      * @return {@link Mole} implementation to be used for the discovery and execution
      */
-    Class<? extends Mole> value();
+    Class<? extends Mole<?,?>> value();
 }
