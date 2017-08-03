@@ -6,7 +6,6 @@ package cern.molr.remotesample.res;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-import cern.molr.exception.ImproperUsageException;
 import cern.molr.remotesample.res.bean.MissionExecutionResponseBean;
 import cern.molr.type.trye.Failure;
 
@@ -39,8 +38,8 @@ public class MissionExecutionResponseFailure extends Failure<MissionExecutionRes
         return null;
     }
     @Override
-    public void setResult(MissionExecutionResponseBean r) throws ImproperUsageException {
-        throw new ImproperUsageException("Cannot set result of a failure");
+    public void setResult(MissionExecutionResponseBean r) {
+        return;
     }
 
 
