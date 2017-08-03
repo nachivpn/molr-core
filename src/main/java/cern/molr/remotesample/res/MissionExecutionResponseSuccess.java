@@ -2,14 +2,15 @@
  * Copyright (c) 2017 European Organisation for Nuclear Research (CERN), All Rights Reserved.
  */
 
-package cern.molr.remotesample.reqres;
+package cern.molr.remotesample.res;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import cern.molr.remotesample.res.bean.MissionExecutionResponseBean;
 import cern.molr.type.trye.Success;
 
 @JsonDeserialize(as = MissionExecutionResponseSuccess.class)
-public class MissionExecutionResponseSuccess extends Success<String> implements MissionExecutionResponse{
+public class MissionExecutionResponseSuccess extends Success<MissionExecutionResponseBean> implements MissionExecutionResponse{
 
     public MissionExecutionResponseSuccess() {
         super(null);
@@ -18,18 +19,8 @@ public class MissionExecutionResponseSuccess extends Success<String> implements 
     /**
      * @param r
      */
-    public MissionExecutionResponseSuccess(String r) {
+    public MissionExecutionResponseSuccess(MissionExecutionResponseBean r) {
         super(r);
-    }
-
-    @Override
-    public String getMissionExecutionId() {
-        return this.r;
-    }
-
-    @Override
-    public void setMissionExecutionId(String missionExecutionId) {
-        this.r = missionExecutionId;
     }
 
     @Override
@@ -43,13 +34,13 @@ public class MissionExecutionResponseSuccess extends Success<String> implements 
     }
 
     @Override
-    public String getResult() {
-        return getMissionExecutionId();
+    public MissionExecutionResponseBean getResult() {
+        return r;
     }
 
     @Override
-    public void setResult(String r) {
-        setMissionExecutionId(r);
+    public void setResult(MissionExecutionResponseBean r){
+        this.r = r;
     }
 
 }

@@ -12,15 +12,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import cern.molr.exception.UnknownMissionException;
-import cern.molr.remotesample.reqres.MissionExecutionRequest;
-import cern.molr.remotesample.reqres.MissionExecutionResponse;
-import cern.molr.remotesample.reqres.MissionExecutionResponseFailure;
-import cern.molr.remotesample.reqres.MissionExecutionResponseSuccess;
-import cern.molr.remotesample.reqres.MissionResultRequest;
-import cern.molr.remotesample.reqres.MissionXResponse;
-import cern.molr.remotesample.reqres.MissionXResponseFailure;
-import cern.molr.remotesample.reqres.MissionXResponseSuccess;
+import cern.molr.remotesample.req.MissionExecutionRequest;
+import cern.molr.remotesample.req.MissionResultRequest;
+import cern.molr.remotesample.res.MissionExecutionResponse;
+import cern.molr.remotesample.res.MissionExecutionResponseFailure;
+import cern.molr.remotesample.res.MissionExecutionResponseSuccess;
+import cern.molr.remotesample.res.MissionXResponse;
+import cern.molr.remotesample.res.MissionXResponseFailure;
+import cern.molr.remotesample.res.MissionXResponseSuccess;
+import cern.molr.remotesample.res.bean.MissionExecutionResponseBean;
 import cern.molr.remotesample.rservice.ServerRestExecutionService;
 
 @RestController
@@ -37,8 +37,8 @@ public class ServerRestController {
     public <I> MissionExecutionResponse newMission(@RequestBody MissionExecutionRequest<I> request) {
         try {
             String mEId = meGateway.runMission(request.getMissionDefnClassName(), request.getArgs());
-            return new MissionExecutionResponseSuccess(mEId);
-        } catch (UnknownMissionException e) {
+            return new MissionExecutionResponseSuccess(new MissionExecutionResponseBean(mEId));
+        } catch (Exception e) {
             return new MissionExecutionResponseFailure(e);
         }
         

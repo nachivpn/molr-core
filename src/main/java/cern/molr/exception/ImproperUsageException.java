@@ -8,21 +8,21 @@ package cern.molr.exception;
 
 /**
  * Exception to be used whenever its not possible to
- * {@link cern.molr.commons.mission.MissionMaterializer#materialize(Class)} a {@link cern.molr.commons.domain.Mission}
+ * {@link cern.molr.commons.mole.Mole#discover(Class)} methods in a {@link cern.molr.commons.domain.Mission}
  *
- * @author timartin
+ * @author nachivpn
  */
-public class UnsupportedMissionOpTypeException extends Exception {
+public class ImproperUsageException extends Exception {
 
-    public UnsupportedMissionOpTypeException(String message) {
+    public ImproperUsageException(String message) {
         super(message);
     }
 
-    public UnsupportedMissionOpTypeException(Throwable cause) {
+    public ImproperUsageException(Throwable cause) {
         super(cause);
     }
 
-    public UnsupportedMissionOpTypeException(String message, Throwable cause) {
+    public ImproperUsageException(String message, Throwable cause) {
         super(message, cause);
     }
 }

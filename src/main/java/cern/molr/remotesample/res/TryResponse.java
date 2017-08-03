@@ -2,13 +2,14 @@
  * Copyright (c) 2017 European Organisation for Nuclear Research (CERN), All Rights Reserved.
  */
 
-package cern.molr.remotesample.reqres;
+package cern.molr.remotesample.res;
 
+import cern.molr.exception.ImproperUsageException;
 import cern.molr.type.trye.Try;
 
 public interface TryResponse<T> extends Try<T>{
     public Exception getException();
     public void setException(Exception e);
     public T getResult();
-    public void setResult(T r);
+    public void setResult(T r) throws ImproperUsageException;
 }

@@ -2,14 +2,16 @@
  * Copyright (c) 2017 European Organisation for Nuclear Research (CERN), All Rights Reserved.
  */
 
-package cern.molr.remotesample.reqres;
+package cern.molr.remotesample.res;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import cern.molr.exception.ImproperUsageException;
+import cern.molr.remotesample.res.bean.MissionExecutionResponseBean;
 import cern.molr.type.trye.Failure;
 
 @JsonDeserialize(as = MissionExecutionResponseFailure.class)
-public class MissionExecutionResponseFailure extends Failure<String> implements MissionExecutionResponse{
+public class MissionExecutionResponseFailure extends Failure<MissionExecutionResponseBean> implements MissionExecutionResponse{
 
     /**
      */
@@ -24,15 +26,6 @@ public class MissionExecutionResponseFailure extends Failure<String> implements 
     }
 
     @Override
-    public String getMissionExecutionId() {
-        return null;
-    }
-
-    @Override
-    public void setMissionExecutionId(String missionExecutionId) {
-        return;
-    }
-    @Override
     public Exception getException() {
         return this.l;
     }
@@ -40,13 +33,14 @@ public class MissionExecutionResponseFailure extends Failure<String> implements 
     public void setException(Exception e) {
         this.l = e;
     }
+    
     @Override
-    public String getResult() {
+    public MissionExecutionResponseBean getResult() {
         return null;
     }
     @Override
-    public void setResult(String r) {
-        return;
+    public void setResult(MissionExecutionResponseBean r) throws ImproperUsageException {
+        throw new ImproperUsageException("Cannot set result of a failure");
     }
 
 

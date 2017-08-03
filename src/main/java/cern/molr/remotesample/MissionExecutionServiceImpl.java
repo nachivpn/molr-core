@@ -14,17 +14,19 @@ import org.springframework.web.reactive.function.client.WebClient;
 import cern.molr.client.MissionExecutionService;
 import cern.molr.client.RunMissionController;
 import cern.molr.client.StepMissionController;
-import cern.molr.exception.UnsupportedMissionOpTypeException;
-import cern.molr.remotesample.reqres.MissionExecutionRequest;
-import cern.molr.remotesample.reqres.MissionExecutionResponse;
-import cern.molr.remotesample.reqres.MissionIntegerResponse;
-import cern.molr.remotesample.reqres.MissionResultRequest;
-import cern.molr.remotesample.reqres.TryResponse;
+import cern.molr.exception.UnsupportedOutputTypeException;
 import cern.molr.type.Ack;
+import cern.molr.remotesample.req.MissionExecutionRequest;
+import cern.molr.remotesample.req.MissionResultRequest;
+import cern.molr.remotesample.res.MissionExecutionResponse;
+import cern.molr.remotesample.res.MissionIntegerResponse;
+import cern.molr.remotesample.res.MissionXResponse;
+import cern.molr.remotesample.res.TryResponse;
+import cern.molr.remotesample.res.bean.MissionExecutionResponseBean;
 import reactor.core.publisher.Mono;
 
 /**
- * Implementation used by the operator
+ * Implementation used by the operator to interact with the server
  * 
  * @author nachivpn
  */
@@ -43,7 +45,7 @@ public class MissionExecutionServiceImpl implements MissionExecutionService{
                     .doOnError(throwable ->  {throw new CompletionException(throwable);})
                     .map(value -> value.match(
                             (Exception e) -> {throw new CompletionException(e);}, 
-                            (String meID) -> meID))
+                            (MissionExecutionResponseBean resp) -> resp.getMissionExecutionId()))
                     .blockFirst();
             return new RunMissionController<O>() {
                 @SuppressWarnings("unchecked")
@@ -57,9 +59,10 @@ public class MissionExecutionServiceImpl implements MissionExecutionService{
                                 .flatMapMany(value -> {
                                     try {
                                         return value.bodyToMono(getMissionResultResponseType(cO));
-                                    } catch (UnsupportedMissionOpTypeException e) {
+                                    } catch (UnsupportedOutputTypeException e) {
                                         throw new CompletionException(e);
-                                    }})
+                                    }
+                                })
                                 .doOnError(throwable ->  {throw new CompletionException(throwable);})
                                 .map(value -> value.getResult())
                                 .blockFirst();
@@ -81,11 +84,11 @@ public class MissionExecutionServiceImpl implements MissionExecutionService{
         return null;
     }
 
-    private Class<? extends TryResponse<?>> getMissionResultResponseType(Class<?> c) throws UnsupportedMissionOpTypeException {
+    private Class<? extends MissionXResponse<?>> getMissionResultResponseType(Class<?> c) throws UnsupportedOutputTypeException {
         if(c.equals(Integer.class))
             return MissionIntegerResponse.class;
         else
-            throw new UnsupportedMissionOpTypeException(c.getName() + "is not supported yet!");
+            throw new UnsupportedOutputTypeException(c.getName() + "is not supported yet!");
     }
 
 

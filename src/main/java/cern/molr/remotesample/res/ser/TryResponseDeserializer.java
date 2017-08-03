@@ -2,7 +2,7 @@
  * Copyright (c) 2017 European Organisation for Nuclear Research (CERN), All Rights Reserved.
  */
 
-package cern.molr.remotesample.reqres;
+package cern.molr.remotesample.res.ser;
 
 import java.io.IOException;
 
@@ -13,21 +13,24 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-public class MissionIntegerResponseDeserializer extends JsonDeserializer<MissionIntegerResponse>{
+public abstract class TryResponseDeserializer<T> extends JsonDeserializer<T> {
 
+    public abstract Class<? extends T> getSuccessDeserializer();
+    
+    public abstract Class<? extends T> getFailureDeserializer();
+    
     @Override
-    public MissionIntegerResponse deserialize(JsonParser jp, DeserializationContext ctxt)
-            throws IOException, JsonProcessingException {
+    public T deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
         ObjectMapper mapper = (ObjectMapper) jp.getCodec();
         ObjectNode root = (ObjectNode) mapper.readTree(jp);
-        Class<? extends MissionIntegerResponse> instanceClass = null;
+        Class<? extends T> instanceClass = null;
         if(root.get("exception").isNull()) {
-            instanceClass = MissionIntegerResponseSuccess.class;
+            instanceClass = getSuccessDeserializer();
         } else { 
-            instanceClass = MissionIntegerResponseFailure.class;
+            instanceClass = getFailureDeserializer();
         }
         return mapper.readValue(root.toString(), instanceClass);
     }
-    
+
     
 }

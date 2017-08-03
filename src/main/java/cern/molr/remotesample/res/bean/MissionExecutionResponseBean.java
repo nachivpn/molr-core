@@ -2,16 +2,22 @@
  * Copyright (c) 2017 European Organisation for Nuclear Research (CERN), All Rights Reserved.
  */
 
-package cern.molr.remotesample.reqres;
+package cern.molr.remotesample.res.bean;
 
-public class MissionResultRequest {
+public class MissionExecutionResponseBean {
 
     private String missionExecutionId;
 
-    public MissionResultRequest(){}
+    /**
+     */
+    public MissionExecutionResponseBean() {
+    }
     
-    public MissionResultRequest(String missionExecutionId){
-        this.setMissionExecutionId(missionExecutionId);
+    /**
+     * @param missionExecutionId
+     */
+    public MissionExecutionResponseBean(String missionExecutionId) {
+        this.missionExecutionId = missionExecutionId;
     }
 
     public String getMissionExecutionId() {
@@ -21,5 +27,5 @@ public class MissionResultRequest {
     public void setMissionExecutionId(String missionExecutionId) {
         this.missionExecutionId = missionExecutionId;
     }
-    
+
 }
