@@ -6,6 +6,7 @@ package cern.molr.remotesample;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
+import java.util.function.Function;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -21,7 +22,6 @@ import cern.molr.remotesample.req.MissionResultRequest;
 import cern.molr.remotesample.res.MissionExecutionResponse;
 import cern.molr.remotesample.res.MissionIntegerResponse;
 import cern.molr.remotesample.res.MissionXResponse;
-import cern.molr.remotesample.res.TryResponse;
 import cern.molr.remotesample.res.bean.MissionExecutionResponseBean;
 import reactor.core.publisher.Mono;
 
@@ -60,11 +60,14 @@ public class MissionExecutionServiceImpl implements MissionExecutionService{
                                     try {
                                         return value.bodyToMono(getMissionResultResponseType(cO));
                                     } catch (UnsupportedOutputTypeException e) {
-                                        throw new CompletionException(e);
+                                        throw new CompletionException("Cannot deserialize output", e);
                                     }
                                 })
-                                .doOnError(throwable ->  {throw new CompletionException(throwable);})
-                                .map(value -> value.getResult())
+                                .doOnError(throwable ->  {throw new CompletionException("An error occured while getting result",throwable);})
+                                .map(value -> value.match(
+                                        (Exception e) -> {throw new CompletionException("Mission execution failed", e);}, 
+                                        //Return the result as it is
+                                        Function.identity()))
                                 .blockFirst();
                     });
                 }

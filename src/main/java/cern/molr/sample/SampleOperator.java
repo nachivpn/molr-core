@@ -39,7 +39,7 @@ public class SampleOperator {
         }
     }
     
-    public int operatorRun2() throws Exception{
+    public Integer operatorRun2() throws Exception{
         CompletableFuture<RunMissionController<Integer>> futureController = mExecService.<Integer, Integer>runToCompletion("cern.molr.sample.IntDoubler", 21, Integer.class, Integer.class);
         try {
             RunMissionController<Integer> controller = futureController.get();
