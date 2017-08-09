@@ -17,6 +17,7 @@ import cern.molr.commons.mole.Mole;
 import cern.molr.exception.ModeMismatchException;
 import cern.molr.supervisor.MoleSpawner;
 import cern.molr.supervisor.MoleSupervisor;
+import cern.molr.supervisor.RunSession;
 import cern.molr.supervisor.StepSession;
 import cern.molr.type.Ack;
 import cern.molr.type.either.Either;
@@ -32,21 +33,36 @@ public class LocalSupervisor {
 
     public static class LocalSampleMoleSupervisor implements MoleSupervisor{
 
+        private Optional<RunSession<?>> optionalRunSession = Optional.empty();
         private Optional<StepSession> optionalStepSession = Optional.empty();
 
         public void setStepSession(StepSession session) {
             this.optionalStepSession = Optional.ofNullable(session);
         }
 
+        public void setRunSession(RunSession<?> runSession) {
+            this.optionalRunSession = Optional.ofNullable(runSession);
+        }
+
+        public RunSession<?> getRunSession() throws ModeMismatchException {
+            return optionalRunSession.orElseThrow(() -> new ModeMismatchException("No running mission"));
+        }
+
+        public StepSession getStepSession() throws ModeMismatchException {
+            return optionalStepSession.orElseThrow(() -> new ModeMismatchException("No stepping mission"));
+        }
+
         @Override
         public <I, O> CompletableFuture<O> run(Mission m, I args, String missionExecutionId) {
-            return CompletableFuture.supplyAsync(() -> {
+            RunSession<O> runSession = () -> CompletableFuture.supplyAsync(() ->{
                 try {
                     return new RunMoleSpawner<I,O>().spawnMoleRunner(m, args);
                 } catch (Exception e) {
                     throw new CompletionException(e);
                 }
             });
+            setRunSession(runSession);
+            return runSession.getResult();
         }
 
         @Override
@@ -67,8 +83,7 @@ public class LocalSupervisor {
             return CompletableFuture.supplyAsync(
                     () -> {
                         try {
-                            StepSession ss = optionalStepSession.orElseThrow(
-                                    () -> new ModeMismatchException("Cannot continue running mission"));
+                            StepSession ss = getStepSession();
                             return ss.getController().resume();
                         } catch (Exception e) {
                             throw new CompletionException(e);
@@ -80,17 +95,15 @@ public class LocalSupervisor {
         public CompletableFuture<Ack> cancel() {
             return CompletableFuture.supplyAsync(
                     () -> {
-                        try {
-                            return optionalStepSession.map(stepSession -> {
-                                stepSession.getController().terminate();
-                                return ACK;
-                            }).orElseGet(()-> {
-                                new EventualExit().exitIn(30000);
-                                return ACK;
-                            });
-                        } catch (Exception e) {
-                            throw new CompletionException(e);
-                        }
+                        return optionalStepSession.map(stepSession -> {
+                            stepSession.getController().terminate();
+                            return ACK;
+                        }).orElseGet(()-> optionalRunSession
+                                .map(runSession ->  {
+                                    new EventualExit().exitIn(30000);
+                                    return ACK;
+                                })
+                                .orElseThrow(() -> new CompletionException(new ModeMismatchException("No running or stepping mission"))));
                     });
         }
 
@@ -149,7 +162,7 @@ public class LocalSupervisor {
             System.exit(1);
         }
     }
-
+    
     public static MoleSupervisor getNewMoleSupervisor() {
         return new LocalSampleMoleSupervisor();
     }

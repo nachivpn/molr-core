@@ -8,6 +8,7 @@ import java.util.concurrent.CompletableFuture;
 
 import cern.molr.client.MissionExecutionService;
 import cern.molr.client.RunMissionController;
+import cern.molr.type.Ack;
 /**
  * Sample implementation and usage of the operator's interfaces to demonstrate communication
  * 
@@ -40,7 +41,8 @@ public class SampleOperator {
     }
     
     public Integer operatorRun2() throws Exception{
-        CompletableFuture<RunMissionController<Integer>> futureController = mExecService.<Integer, Integer>runToCompletion("cern.molr.sample.IntDoubler", 21, Integer.class, Integer.class);
+        CompletableFuture<RunMissionController<Integer>> futureController = 
+                mExecService.<Integer, Integer>runToCompletion("cern.molr.sample.IntDoubler", 21, Integer.class, Integer.class);
         try {
             RunMissionController<Integer> controller = futureController.get();
             CompletableFuture<Integer> futureResult = controller.getResult();
@@ -53,5 +55,22 @@ public class SampleOperator {
         }
         
     }
+    
+    public Integer operatorRun3() throws Exception{
+        CompletableFuture<RunMissionController<Integer>> futureController = 
+                mExecService.<Integer, Integer>runToCompletion("cern.molr.sample.Fibonacci", 
+                        42, Integer.class, Integer.class);
+        try {
+            RunMissionController<Integer> controller = futureController.get();
+            CompletableFuture<Ack> cancelResult = controller.cancel();
+            System.out.println(cancelResult.get().getMessage());
+            CompletableFuture<Integer> futureResult = controller.getResult();
+            return futureResult.get();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;     
+        }
+    }
+    
     
 }

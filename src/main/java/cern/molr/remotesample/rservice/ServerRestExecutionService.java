@@ -5,6 +5,7 @@
 package cern.molr.remotesample.rservice;
 
 import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -16,10 +17,12 @@ import cern.molr.exception.MissionMaterializationException;
 import cern.molr.exception.UnknownMissionException;
 import cern.molr.remotesample.MissionExecutionServiceImpl;
 import cern.molr.sample.AnnotatedMissionMaterializer;
+import cern.molr.sample.Fibonacci;
 import cern.molr.sample.IntDoubler;
 import cern.molr.sample.LocalSupervisor;
 import cern.molr.sample.RunnableHelloWriter;
 import cern.molr.supervisor.MoleSupervisor;
+import cern.molr.type.Ack;
 /**
  * Gateway used for communication between {@link MissionExecutionServiceImpl} amd {@link MissionExecutionServiceImpl}
  * 
@@ -36,6 +39,7 @@ public class ServerRestExecutionService {
         try {
             registry.registerNewMission(m.materialize(RunnableHelloWriter.class));
             registry.registerNewMission(m.materialize(IntDoubler.class));
+            registry.registerNewMission(m.materialize(Fibonacci.class));
         } catch (MissionMaterializationException e) {
             throw new RuntimeException(e);
         }
@@ -45,8 +49,8 @@ public class ServerRestExecutionService {
         String missionEId = makeEId();
         MoleSupervisor moleSupervisor = LocalSupervisor.getNewMoleSupervisor();
         return registry.getMission(missionDefnClassName).map(mission ->{
-            CompletableFuture<?> cf = moleSupervisor.run(mission, args, missionEId);
-            registry.registerNewMissionExecution(missionEId, cf);
+            CompletableFuture<O> cf = moleSupervisor.run(mission, args, missionEId);
+            registry.registerNewMissionExecution(missionEId, moleSupervisor, cf);
             return missionEId;
         }).orElseThrow(() -> new UnknownMissionException("No such mission known!"));
     }
@@ -57,7 +61,7 @@ public class ServerRestExecutionService {
     }
 
     private String makeEId() {
-        return "42";
+        return UUID.randomUUID().toString();
     }
 
     public static class ServerState {
@@ -65,12 +69,14 @@ public class ServerRestExecutionService {
         /* State of the server */
         private ConcurrentMap<String, Mission> missionRegistry = new ConcurrentHashMap<>();
         private ConcurrentMap<String, CompletableFuture<?>> missionExecutionRegistry =  new ConcurrentHashMap<>();
+        private ConcurrentMap<String, MoleSupervisor> moleSupervisorRegistry =  new ConcurrentHashMap<>();
 
         public void registerNewMission(Mission m) {
             missionRegistry.put(m.getMissionDefnClassName(), m);
         }
 
-        public void registerNewMissionExecution(String missionId, CompletableFuture<?> cf) {
+        public void registerNewMissionExecution(String missionId, MoleSupervisor ms, CompletableFuture<?> cf) {
+            moleSupervisorRegistry.put(missionId, ms);
             missionExecutionRegistry.put(missionId, cf);
         }
 
@@ -82,6 +88,22 @@ public class ServerRestExecutionService {
             return Optional.ofNullable(missionExecutionRegistry.get(missionEId));
         }
 
+        public MoleSupervisor getMoleSupervisor(String missionExecutionId) {
+            return moleSupervisorRegistry.get(missionExecutionId);
+        }
+
+    }
+
+    /**
+     * @param missionExecutionId
+     * @return
+     * @throws UnknownMissionException 
+     */
+    public CompletableFuture<Ack> cancel(String missionExecutionId) throws UnknownMissionException {
+        Optional<MoleSupervisor> optionalSupervisor = Optional.ofNullable(registry.getMoleSupervisor(missionExecutionId));
+        return optionalSupervisor
+                .orElseThrow(() -> new UnknownMissionException("No such mission running"))
+                .cancel();
     }
 
 }

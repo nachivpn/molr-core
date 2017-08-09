@@ -17,8 +17,10 @@ import cern.molr.client.RunMissionController;
 import cern.molr.client.StepMissionController;
 import cern.molr.exception.UnsupportedOutputTypeException;
 import cern.molr.type.Ack;
+import cern.molr.remotesample.req.MissionCancelRequest;
 import cern.molr.remotesample.req.MissionExecutionRequest;
 import cern.molr.remotesample.req.MissionResultRequest;
+import cern.molr.remotesample.res.MissionCancelResponse;
 import cern.molr.remotesample.res.MissionExecutionResponse;
 import cern.molr.remotesample.res.MissionIntegerResponse;
 import cern.molr.remotesample.res.MissionXResponse;
@@ -74,7 +76,19 @@ public class MissionExecutionServiceImpl implements MissionExecutionService{
 
                 @Override
                 public CompletableFuture<Ack> cancel() {
-                    return null;
+                    return CompletableFuture.supplyAsync(() ->{
+                        MissionCancelRequest cancelRequest = new MissionCancelRequest(missionExecutionId);
+                        return client.post().uri("/cancel")
+                                .accept(MediaType.APPLICATION_JSON)
+                                .body(BodyInserters.fromPublisher(Mono.just(cancelRequest), MissionCancelRequest.class)).exchange()
+                                .flatMapMany(value -> value.bodyToMono(MissionCancelResponse.class))
+                                .doOnError(throwable ->  {throw new CompletionException("An error occured while cancelling",throwable);})
+                                .map(value -> value.match(
+                                        (Exception e) -> {throw new CompletionException("Cancel failed", e);}, 
+                                        //Return the result as it is
+                                        Function.identity()))
+                                .blockFirst();
+                    });
                 }
 
             };

@@ -4,6 +4,19 @@
 
 package cern.molr.type;
 
-public class Ack {
+public class Ack{
 
+    private String message = "ACK";
+    
+    public Ack() {}
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+    
+    
 }

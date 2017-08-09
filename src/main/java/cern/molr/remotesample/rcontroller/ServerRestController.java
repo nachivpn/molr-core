@@ -12,8 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import cern.molr.remotesample.req.MissionCancelRequest;
 import cern.molr.remotesample.req.MissionExecutionRequest;
 import cern.molr.remotesample.req.MissionResultRequest;
+import cern.molr.remotesample.res.MissionCancelResponse;
+import cern.molr.remotesample.res.MissionCancelResponseFailure;
+import cern.molr.remotesample.res.MissionCancelResponseSuccess;
 import cern.molr.remotesample.res.MissionExecutionResponse;
 import cern.molr.remotesample.res.MissionExecutionResponseFailure;
 import cern.molr.remotesample.res.MissionExecutionResponseSuccess;
@@ -22,6 +26,7 @@ import cern.molr.remotesample.res.MissionXResponseFailure;
 import cern.molr.remotesample.res.MissionXResponseSuccess;
 import cern.molr.remotesample.res.bean.MissionExecutionResponseBean;
 import cern.molr.remotesample.rservice.ServerRestExecutionService;
+import cern.molr.type.Ack;
 
 @RestController
 public class ServerRestController {
@@ -52,6 +57,18 @@ public class ServerRestController {
                 return new MissionXResponseSuccess<>(resultFuture.get());
             } catch (Exception e) {
                 return new MissionXResponseFailure<>(e);
+            }
+        });
+    }
+    
+    @RequestMapping(path = "/cancel", method = RequestMethod.POST)
+    public CompletableFuture<MissionCancelResponse> result(@RequestBody MissionCancelRequest request) {
+        return CompletableFuture.supplyAsync(() ->{
+            try {
+                CompletableFuture<Ack> resultFuture = meGateway.cancel(request.getMissionExecutionId());
+                return new MissionCancelResponseSuccess(resultFuture.get());
+            } catch (Exception e) {
+                return new MissionCancelResponseFailure(e);
             }
         });
     }
