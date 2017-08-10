@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import cern.molr.exception.MissionExecutionException;
 import cern.molr.remotesample.req.MissionCancelRequest;
 import cern.molr.remotesample.req.MissionExecutionRequest;
 import cern.molr.remotesample.req.MissionResultRequest;
@@ -56,7 +57,7 @@ public class ServerRestController {
                 CompletableFuture<?> resultFuture = meGateway.getResult(request.getMissionExecutionId());
                 return new MissionXResponseSuccess<>(resultFuture.get());
             } catch (Exception e) {
-                return new MissionXResponseFailure<>(e);
+                return new MissionXResponseFailure<>(new MissionExecutionException(e));
             }
         });
     }

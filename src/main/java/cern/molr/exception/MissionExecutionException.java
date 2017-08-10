@@ -7,8 +7,6 @@
 package cern.molr.exception;
 
 /**
- * Exception to be used whenever its not possible to
- * {@link cern.molr.commons.mole.Mole#run(String, Object...)} a {@link cern.molr.commons.domain.Mission}
  *
  * @author timartin
  */

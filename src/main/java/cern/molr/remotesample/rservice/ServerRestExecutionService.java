@@ -88,8 +88,8 @@ public class ServerRestExecutionService {
             return Optional.ofNullable(missionExecutionRegistry.get(missionEId));
         }
 
-        public MoleSupervisor getMoleSupervisor(String missionExecutionId) {
-            return moleSupervisorRegistry.get(missionExecutionId);
+        public Optional<MoleSupervisor> getMoleSupervisor(String missionExecutionId) {
+            return Optional.ofNullable(moleSupervisorRegistry.get(missionExecutionId));
         }
 
     }
@@ -100,7 +100,8 @@ public class ServerRestExecutionService {
      * @throws UnknownMissionException 
      */
     public CompletableFuture<Ack> cancel(String missionExecutionId) throws UnknownMissionException {
-        Optional<MoleSupervisor> optionalSupervisor = Optional.ofNullable(registry.getMoleSupervisor(missionExecutionId));
+        Optional<MoleSupervisor> optionalSupervisor = registry.getMoleSupervisor(missionExecutionId);
+        registry.getMissionExecutionFuture(missionExecutionId).map(f -> f.cancel(true));
         return optionalSupervisor
                 .orElseThrow(() -> new UnknownMissionException("No such mission running"))
                 .cancel();
