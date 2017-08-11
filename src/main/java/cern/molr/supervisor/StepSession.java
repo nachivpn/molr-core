@@ -8,7 +8,7 @@ import java.time.ZonedDateTime;
 
 import cern.molr.client.StepResult;
 import cern.molr.commons.mission.Mission;
-import cern.molr.type.Either;
+import cern.molr.type.either.Either;
 
 /**
  * A generic {@link StepSession}, encapsulates the information of a currently running {@link Mission}

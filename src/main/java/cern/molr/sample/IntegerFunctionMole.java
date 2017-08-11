@@ -19,11 +19,8 @@ import cern.molr.exception.MissionExecutionException;
 
 /**
  * Implementation of {@link Mole} which allows for the discovery and execution of classes implementing the
- * {@link Runnable} interface.
- * <h3>Discovery:</h3> All classes annotated with {@link Runnable} are exposed as services.
- * <h3>Execution:</h3> Allows for the execution of the {@link Runnable#run()} entry point.
+ * {@link Function<Integer,Integer>} interface.
  *
- * @author tiagomr
  * @author nachivpn
  * @see Mole
  */

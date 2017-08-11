@@ -7,20 +7,22 @@
 package cern.molr.exception;
 
 /**
+ * Exception to be used whenever its not possible to
+ * {@link cern.molr.commons.mission.MissionMaterializer#materialize(Class)} a {@link cern.molr.commons.domain.Mission}
  *
- * @author timartin
+ * @author nachivpn
  */
-public class MissionExecutionException extends Exception {
+public class UnsupportedOutputTypeException extends Exception {
 
-    public MissionExecutionException(String message) {
+    public UnsupportedOutputTypeException(String message) {
         super(message);
     }
 
-    public MissionExecutionException(Throwable cause) {
+    public UnsupportedOutputTypeException(Throwable cause) {
         super(cause);
     }
 
-    public MissionExecutionException(String message, Throwable cause) {
+    public UnsupportedOutputTypeException(String message, Throwable cause) {
         super(message, cause);
     }
 }

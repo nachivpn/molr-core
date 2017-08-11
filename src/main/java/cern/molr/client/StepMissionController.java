@@ -7,7 +7,7 @@ package cern.molr.client;
 import java.util.concurrent.CompletableFuture;
 
 import cern.molr.type.Ack;
-import cern.molr.type.Either;
+import cern.molr.type.either.Either;
 
 public interface StepMissionController<T> {
     

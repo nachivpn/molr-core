@@ -5,7 +5,7 @@
 package cern.molr.supervisor;
 
 import cern.molr.client.StepResult;
-import cern.molr.type.Either;
+import cern.molr.type.either.Either;
 
 public interface JdiController {
     

@@ -19,25 +19,25 @@ import cern.molr.commons.mission.Mission;
 import cern.molr.exception.UnknownMissionException;
 import cern.molr.supervisor.MoleSupervisor;
 import cern.molr.type.Ack;
-import cern.molr.type.Either;
+import cern.molr.type.either.Either;
 
-public class SampleServer{
+public class LocalServer{
     
     private Map<String, Mission> missionRegistry = new HashMap<>();
     
     public MissionDeploymentService getMissionDeploymentService() {
-        return new SampleDeploymentService();
+        return new LocalDeploymentService();
     }
     
     public MissionExecutionService getMissionExecutionService() {
-        return new SampleMissionExecutionService();
+        return new LocalMissionExecutionService();
     }
     
-    public class SampleMissionExecutionService implements MissionExecutionService {
+    public class LocalMissionExecutionService implements MissionExecutionService {
 
         @Override
-        public <I, O> CompletableFuture<RunMissionController<O>> runToCompletion(String missionDefnClassName, I args) {
-            MoleSupervisor moleSupervisor = SampleSupervisor.getNewMoleSupervisor();
+        public <I, O> CompletableFuture<RunMissionController<O>> runToCompletion(String missionDefnClassName, I args, Class<I> cI, Class<O> cO) {
+            MoleSupervisor moleSupervisor = LocalSupervisor.getNewMoleSupervisor();
             String missionEId = makeMissionEId();
 
             /*find mission from registry*/
@@ -65,7 +65,7 @@ public class SampleServer{
 
         @Override
         public <I, O> CompletableFuture<StepMissionController<O>> step(String missionDefnClassName, I args) {
-            MoleSupervisor moleSupervisor = SampleSupervisor.getNewMoleSupervisor();
+            MoleSupervisor moleSupervisor = LocalSupervisor.getNewMoleSupervisor();
             String missionEId = makeMissionEId();
 
             /*find mission from registry*/
@@ -104,9 +104,9 @@ public class SampleServer{
     }
     
     
-    public class SampleDeploymentService implements MissionDeploymentService{
+    public class LocalDeploymentService implements MissionDeploymentService{
 
-        private SampleDeploymentService() {}
+        private LocalDeploymentService() {}
         
         @Override
         public void deploy(Mission m) {
